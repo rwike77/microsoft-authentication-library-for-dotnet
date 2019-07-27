@@ -22,7 +22,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
     public class AadAuthorityTests : TestBase
     {
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void SuccessfulValidationTest()
         {
             using (var harness = CreateTestHarness())
@@ -78,7 +77,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void ValidationOffSuccessTest()
         {
             using (var harness = CreateTestHarness())
@@ -115,7 +113,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void CreateEndpointsWithCommonTenantTest()
         {
             using (var harness = CreateTestHarness())
@@ -148,11 +145,10 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void SelfSignedJwtAudienceEndpointValidationTest()
         {
-            string common = MsalTestConstants.Common;
-            string tenantSpecific = MsalTestConstants.TenantId;
+            string common = TestConstants.Common;
+            string tenantSpecific = TestConstants.TenantId;
             string issuerCommonWithTenant = "https://login.microsoftonline.com/{tenant}/v2.0";
             string issuerCommonWithTenantId = "https://login.microsoftonline.com/{tenantid}/v2.0";
             string issuerTenantSpecific = $"https://login.microsoftonline.com/{tenantSpecific}/v2.0";
@@ -164,7 +160,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void FailedValidationTest()
         {
             using (var harness = CreateTestHarness())
@@ -216,7 +211,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void FailedValidationMissingFieldsTest()
         {
             using (var harness = CreateTestHarness())
@@ -257,7 +251,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void FailedTenantDiscoveryMissingEndpointsTest()
         {
             using (var harness = CreateTestHarness())
@@ -295,7 +288,6 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         }
 
         [TestMethod]
-        [TestCategory("AadAuthorityTests")]
         public void CanonicalAuthorityInitTest()
         {
             var serviceBundle = TestCommon.CreateDefaultServiceBundle();
@@ -323,23 +315,23 @@ namespace Microsoft.Identity.Test.Unit.CoreTests.InstanceTests
         {
             // no change because initial authority is tenanted
             AuthorityTestHelper.AuthorityDoesNotUpdateTenant(
-                MsalTestConstants.AuthorityUtidTenant, MsalTestConstants.Utid);
+                TestConstants.AuthorityUtidTenant, TestConstants.Utid);
         }
 
         [TestMethod]
         public void TenantlessAuthorityChanges()
         {
             Authority authority = AuthorityTestHelper.CreateAuthorityFromUrl(
-                MsalTestConstants.AuthorityCommonTenant);
+                TestConstants.AuthorityCommonTenant);
 
             Assert.AreEqual("common", authority.GetTenantId());
 
-            string updatedAuthority = authority.GetTenantedAuthority(MsalTestConstants.Utid);
-            Assert.AreEqual(MsalTestConstants.AuthorityUtidTenant, updatedAuthority);
-            Assert.AreEqual(updatedAuthority, MsalTestConstants.AuthorityUtidTenant);
+            string updatedAuthority = authority.GetTenantedAuthority(TestConstants.Utid);
+            Assert.AreEqual(TestConstants.AuthorityUtidTenant, updatedAuthority);
+            Assert.AreEqual(updatedAuthority, TestConstants.AuthorityUtidTenant);
 
-            authority.UpdateWithTenant(MsalTestConstants.Utid);
-            Assert.AreEqual(authority.AuthorityInfo.CanonicalAuthority, MsalTestConstants.AuthorityUtidTenant);
+            authority.UpdateWithTenant(TestConstants.Utid);
+            Assert.AreEqual(authority.AuthorityInfo.CanonicalAuthority, TestConstants.AuthorityUtidTenant);
         }
                
         private void CheckCorrectJwtAudienceEndpointIsCreatedFromIssuer(string issuer, string tenantId, string expectedJwtAudience)
